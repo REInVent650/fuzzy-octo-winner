@@ -16,31 +16,56 @@ struct ContentView: View {
         animation: .default)
     private var items: FetchedResults<Item>
 
+    @State private var username: String = ""
+    @State private var email: String = ""
+    @State private var password: String = ""
+    //@FocusState private var emailFieldIsFocused: Bool = false
+    
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
-                    }
+        VStack {
+            Text("Log in to Shake and Wipe")
+                .font(.system(size: 25, weight: .regular, design: .default))
+                .padding()
+                .frame(maxWidth: .infinity)
+                .foregroundColor(.primary)
+                .background(.teal)
+            VStack {
+                Spacer()
+                VStack {
+                    Text("Please enter Name, Email and Password")
+                    TextField("Name", text: $username)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .clipped()
+                        .padding()
+                    TextField("Email", text: $email)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .clipped()
+                    TextField(
+                        "Password",
+                        text: $password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .clipped()
+                    Text("Continue".uppercased())
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .clipped()
+                        .background(.teal)
+                        .font(.system(size: 20, weight: .regular, design: .default))
+                    Text("By clicking continue you agree with our Privacy Policy")
+                        .padding()
+                        .font(.footnote.weight(.regular))
+                    Text("Reset Password")
+                        .font(.body.weight(.medium))
+                        .foregroundColor(.teal)
                 }
-                .onDelete(perform: deleteItems)
+                Spacer()
             }
-            .toolbar {
-#if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-#endif
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-            Text("Select an item")
+            .padding()
         }
     }
 
